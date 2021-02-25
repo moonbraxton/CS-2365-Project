@@ -74,6 +74,7 @@ signupForm.addEventListener('submit', function(e) {
 
 
         alert("Signup Successful") //Holds until the user clicks OK
+        console.log("Redirecting...")
         setTimeout(function(){document.location.href = "/store"},500) //Load the store view
     }
     
