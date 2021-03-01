@@ -29,6 +29,23 @@ function ready() {
     document.getElementsByClassName('btn-purchase')[0].addEventListener('click', purchaseClicked)
 }
 
+//Will send a POST call to the server so it can update the current stock available and save the order
+async function makeOrder(items, confirmationNumber, orderTotal){
+    let response = await fetch("/make_order", { 
+        method: "POST", //Not writing anything, but has to be POST so an object can be sent
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            items: items,
+            confirmationNumber: confirmationNumber,
+            orderTotal: orderTotal
+        })
+    })
+
+    let json = await response.json(); //wait for the response. true or false.
+}
+
 //Called when the purchase button is called
 function purchaseClicked() {
     var items = [] //List of items being purchased
@@ -41,11 +58,18 @@ function purchaseClicked() {
     for (var i = 0; i < cartRows.length; i++) { //Gets the information for all items currently in the cart
         var cartRow = cartRows[i]
         var id = cartRow.dataset.itemId
+        var img = cartRow.getElementsByClassName('cart-item-image')[0].src;
+        var title = cartRow.getElementsByClassName('cart-item-title')[0].innerText;
+        var price = cartRow.getElementsByClassName('cart-price')[0].innerText;
         var quantityElement = cartRow.getElementsByClassName('cart-quantity-input')[0]
         var quantityPurchased = quantityElement.value
         var quantityInStock = cartRow.dataset.itemQuantity
+
         items.push({
             id: id,
+            title: title,
+            price: price,
+            img: img,
             quantityPurchased: quantityPurchased,
             quantityInStock: quantityInStock
         })
@@ -53,8 +77,18 @@ function purchaseClicked() {
 
     console.log("Items Purchased: ", items);
 
-    if(confirm('Are you sure you would like to purchase?')){ //Removes the current cart if the customer confirms they want to purchase
+    //TODO: Get confirmation number from the bank
+    let confirmationNumber = "00000000";
+
+    if(confirm('Are you sure you would like to purchase?')){ 
+        //make the order
+        makeOrder(items, confirmationNumber, price);
+
+        //empty the cart
         var cartItems = document.getElementsByClassName('cart-items')[0] //Holds all the items that are in the cart
+        //TODO: Implement two delivery methods... mail ($3) and in store pickup (free)
+        //TODO: If this is a customers first purchase of the year, charge a $40 membership fee
+        
         while (cartItems.hasChildNodes()) { //Iter through the items in the cart and remove the first one (items will shift when first is removed)
             var currentlyInStock = cartItems.firstChild;
             cartItems.removeChild(cartItems.firstChild)
