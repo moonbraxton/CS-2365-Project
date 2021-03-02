@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Shop Name Here | Store</title>
+        <meta name="description" content="This is the description">
+        <link rel="stylesheet" href="CSS/styles.css" />
+        <script src="account.js" defer></script>
+    </head>
+    <body>
+        <header class="main-header">
+            <nav class="main-nav nav">
+                <ul>
+                    <li><a href="/account">ACCOUNT</a></li>
+                    <li><a href="/store">STORE</a></li>
+                </ul>
+            </nav>
+            <h1 class="shop-name shop-name-large">Shop Name Here</h1>
+        </header>
+        <section class="container content-section">
+            <h2 class="section-header">Account Information</h2>
+            <% console.log(customer);%>
+            <div class="account-info-container">
+                <span class="account-email account-label">Email: </span>
+                <span class="account-email-input"><%= customer.email %></span>
+            </div>
+            <div class="account-info-container">
+                <span class="account-password account-label">Password: </span>
+                <span class="account-password-input"><%= customer.password %></span>
+            </div>
+            <div class="account-info-container">
+                <span class="account-card-number account-label">Card Number: </span>
+                <span type="text" class="account-card-number-input"><%= customer.cardNumber %></span>
+            </div>
+            <div class="account-info-container">
+                <span class="account-expiration-date account-label">Expiration Date: </span>
+                <span type="text" class="account-expiration-date-input"><%= customer.cardExpiration %></span>
+            </div>
+            <div class="account-info-container">
+                <span class="account-card-cvv account-label">CVV: </span>
+                <span type="text" class="account-card-cvv-input"><%= customer.cardCVV %></span>
+            </div>
+            
+
+            <h2 class="section-header">Order History</h2>
+                <% items.forEach(function(item){ %>
+                    <% if(item.customer_id === customer.id){ %>
+                        <div class="order">
+                            <div class="order-history">
+                                <div class="order-row">
+                                    <span class="order-item order-label">Date: <%= item.orderDate %></span>
+                                    <span class="order-item order-label">Purchase Authorization #: <%= item.purchaseAuthorizationNumber %></span>
+
+                                </div>
+                                <div class="order-row">
+                                    <span class="order-item order-header order-column">ITEM</span>
+                                    <span class="order-quantity order-header order-column">QUANTITY</span>
+                                    <span class="order-price order-header order-column">PRICE</span>
+                                </div>
+                                <% item.items.forEach(function(purchased){ %>
+                                    <div class="order-row">
+                                        <div class="order-item order-column">
+                                            <img class="order-item-image" src="<%= purchased.img %>" width="100" height="100">
+                                            <span class="order-item-title"><%= purchased.title %></span>
+                                        </div>
+                                        <span class="order-quantity order-column"><%= purchased.quantityPurchased %></span>
+                                        <span class="order-price order-column"><%= purchased.price %></span>
+                                    </div>
+                                <% }) %>
+                                <div class="order-information">
+                                    <div class="order-status">
+                                        <strong class="order-total-title">Status</strong>
+                                        <span class="order-total-price"><%= item.orderStatus %></span>
+                                    </div>
+                                    <div class="order-total">
+                                        <strong class="order-total-title">Total</strong>
+                                        <span class="order-total-price">$<%= item.orderTotal/100 %></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                <% }) %>
+
+            </div>
+        </section>
+    </body>
+</html>

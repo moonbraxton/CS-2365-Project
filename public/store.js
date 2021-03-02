@@ -51,7 +51,7 @@ async function makeOrder(items, confirmationNumber, orderTotal){
 function purchaseClicked() {
     var items = [] //List of items being purchased
     var priceElement = document.getElementsByClassName('cart-total-price')[0] //Holds the Total Price
-    var price = parseFloat(priceElement.innerText.replace('$', '')) * 100 //Actual total pirce (resolution: 1c)
+    var cartPrice = parseFloat(priceElement.innerText.replace('$', '')) * 100 //Actual total pirce (resolution: 1c)
      
 
     var cartItemContainer = document.getElementsByClassName('cart-items')[0]
@@ -83,7 +83,7 @@ function purchaseClicked() {
 
     if(confirm('Are you sure you would like to purchase?')){ 
         //make the order
-        makeOrder(items, confirmationNumber, price);
+        makeOrder(items, confirmationNumber, cartPrice);
 
         //empty the cart
         var cartItems = document.getElementsByClassName('cart-items')[0] //Holds all the items that are in the cart

@@ -6,7 +6,14 @@ const express = require('express')
 const app = express()
 const fs = require('fs')
 
-let customerID; //ID of the customer currently logged in
+let currentCustomer = {
+  email: '',
+  password: '',
+  cardNumber: '',
+  cardExpiration: '',
+  cardCVV: '',
+  id: -1
+}; //The customer currently logged in
 
 app.set('view engine', 'ejs')
 app.use(express.json())
@@ -25,6 +32,19 @@ app.get('/store', function(req, res) {
   })
 })
 
+app.get('/account', function(req, res) {
+  fs.readFile('./public/config_files/orders.json', function(error, data) {
+    if (error) {
+      res.status(500).end()
+    } else {
+      res.render('account.ejs', {
+        items: JSON.parse(data),
+        customer: currentCustomer
+      })
+    }
+  })
+})
+
 //Returns true if the customer has not made a purchade this year
 function firstPurchase(){
   let ordersjson = fs.readFileSync("./public/config_files/orders.json","utf-8"); //refrence to the file
@@ -32,7 +52,7 @@ function firstPurchase(){
   let output = true;
 
   orders.forEach(function(obj){
-    if(obj.customer_id === customerID){
+    if(obj.customer_id === currentCustomer.id){
       output = false;
     }
   })
@@ -50,7 +70,7 @@ app.post("/check_account", (request, response) => {
   accounts.forEach(function(obj){
     if(request.body.email === obj.email && request.body.password === obj.password){
       valid = true;
-      customerID = obj.id;
+      currentCustomer = obj;
     }
   })
 
@@ -114,12 +134,15 @@ app.post("/make_order", (request, response) => {
 
   //request.body.items = items purchased
   //request.body.confirmationNummber = confirmation number from the bank
+  let today = new Date().toLocaleDateString()
+
   orders.push({
-    customer_id: customerID,
+    customer_id: currentCustomer.id,
     items: request.body.items,
     orderTotal: request.body.orderTotal,
-    orderStatus: "ordered",
-    purchaseAuthorizationNumber: request.body.confirmationNumber
+    orderStatus: "Ordered",
+    purchaseAuthorizationNumber: request.body.confirmationNumber,
+    orderDate: today
   })
 
   //update order with items purchased, date, confirmation number, etc...

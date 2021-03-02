@@ -19,24 +19,26 @@
         "quantityInStock": "100"
       }
     ],
-    "orderTotal": "$8.99",
-    "orderStatus": "ordered",
-    "purchaseAuthorizationNumber": "00000000"
+    "orderTotal": 6498,
+    "orderStatus": "Ordered",
+    "purchaseAuthorizationNumber": "00000000",
+    "orderDate": "3/1/2021"
   },
   {
     "customer_id": 0,
     "items": [
       {
-        "id": "8",
-        "title": "Red Hot Chilli Peppers Shirt",
+        "id": "1",
+        "title": "Blink-182 Greatest Hits",
         "price": "$12.99",
-        "img": "http://localhost:3000/Images/Merch/Red%20Hot%20Chilli%20Peppers%20Shirt.jpg",
+        "img": "http://localhost:3000/Images/Albums/Blink-182%20Album.jpg",
         "quantityPurchased": "1",
         "quantityInStock": "100"
       }
     ],
-    "orderTotal": "$12.99",
-    "orderStatus": "ordered",
-    "purchaseAuthorizationNumber": "00000000"
+    "orderTotal": 1599,
+    "orderStatus": "Ordered",
+    "purchaseAuthorizationNumber": "00000000",
+    "orderDate": "3/1/2021"
   }
 ]
