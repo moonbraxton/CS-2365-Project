@@ -18,11 +18,27 @@ app.get('/store', function(req, res) {
       res.status(500).end()
     } else {
       res.render('store.ejs', {
-        items: JSON.parse(data)
+        items: JSON.parse(data),
+        membershipFee: firstPurchase()
       })
     }
   })
 })
+
+//Returns true if the customer has not made a purchade this year
+function firstPurchase(){
+  let ordersjson = fs.readFileSync("./public/config_files/orders.json","utf-8"); //refrence to the file
+  let orders = JSON.parse(ordersjson); //JSON object holding all current items
+  let output = true;
+
+  orders.forEach(function(obj){
+    if(obj.customer_id === customerID){
+      output = false;
+    }
+  })
+  
+  return output;
+}
 
 app.post("/check_account", (request, response) => {
   console.log("Client requesting customer accounts.", request.body);

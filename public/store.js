@@ -26,6 +26,7 @@ function ready() {
     }
 
     //Link the purchase button to actions
+    document.getElementsByClassName('cart-delivery')[0].addEventListener('click', updateCartTotal)
     document.getElementsByClassName('btn-purchase')[0].addEventListener('click', purchaseClicked)
 }
 
@@ -180,6 +181,13 @@ function updateCartTotal() {
         var quantity = quantityElement.value
         total = total + (price * quantity)
     }
-    total = Math.round(total * 100) / 100
+
+    if(document.getElementById("delivery").checked)
+        total = (Math.round(total * 100) / 100)+3
+
+    if(document.getElementsByClassName("cart-membership-fee")[0] !== undefined)
+        total = (Math.round(total * 100) / 100) + 40
+    
     document.getElementsByClassName('cart-total-price')[0].innerText = '$' + total
-}
+
+    }

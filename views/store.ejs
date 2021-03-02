@@ -55,10 +55,29 @@
             </div>
             <div class="cart-items">
             </div>
-            <div class="cart-total">
-                <strong class="cart-total-title">Total</strong>
-                <span class="cart-total-price">$0</span>
+            <div class="cart-information">
+                <div class="cart-delivery">
+                    <div>
+                        <input class="cart-delivery-method" id="delivery" name="shipping" type="radio" checked=true>
+                        <label class="cart-delivery-method" for="delivery" >Delivery ($3)</label>
+                    </div>
+                    <div>
+                        <input class="cart-delivery-method" id="pick-up" name="shipping" type="radio">
+                        <label class="cart-delivery-method" for="pick-up">Pick-Up</label>
+                    </div>
+                </div>
+                <% if(membershipFee){ %>
+                <div class="cart-membership-fee">
+                    <strong class="cart-membership-fee">Membership Fee</strong>
+                    <span class="cart-membership-fee">$40</span>
+                </div>
+                <% } %>
+                <div class="cart-total">
+                    <strong class="cart-total-title">Total</strong>
+                    <span class="cart-total-price">$0</span>
+                </div>
             </div>
+            
             <button class="btn btn-primary btn-purchase" type="button">PURCHASE</button>
         </section>
     </body>
