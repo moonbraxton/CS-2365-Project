@@ -87,8 +87,6 @@ function purchaseClicked() {
 
         //empty the cart
         var cartItems = document.getElementsByClassName('cart-items')[0] //Holds all the items that are in the cart
-        //TODO: Implement two delivery methods... mail ($3) and in store pickup (free)
-        //TODO: If this is a customers first purchase of the year, charge a $40 membership fee
         
         while (cartItems.hasChildNodes()) { //Iter through the items in the cart and remove the first one (items will shift when first is removed)
             var currentlyInStock = cartItems.firstChild;
@@ -97,7 +95,7 @@ function purchaseClicked() {
         }
         updateCartTotal() //Since cart is empty, cart total will be updated to $0
 
-        //TODO:: Subtract the quantity bought from the quantity in stock... 
+
     }
     
 

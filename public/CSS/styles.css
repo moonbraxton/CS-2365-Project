@@ -127,6 +127,7 @@ html, body {
 
 .shop-item {
     margin: 30px;
+    text-align-last: center;
 }
 
 .shop-item-title {
@@ -147,6 +148,13 @@ html, body {
     display: flex;
     align-items: center;
     padding: 5px;
+}
+
+.stock-item-details {
+    align-items: center;
+    padding: 5px;
+    display: grid;
+    justify-content: center;
 }
 
 .shop-item-price {
@@ -291,7 +299,8 @@ html, body {
 }
 
 .cart-total-title,
-.order-total-title {
+.order-total-title,
+.order-status-title {
     font-weight: bold;
     font-size: 1.5em;
     color: black;
@@ -299,7 +308,8 @@ html, body {
 }
 
 .cart-total-price,
-.order-total-price  {
+.order-total-price,
+.order-status-value  {
     color: #333;
     font-size: 1.1em;
 }
@@ -336,4 +346,18 @@ html, body {
     display: block;
     margin: 40px auto 80px auto;
     font-size: 1.75em;
+}
+
+.order-status-control{
+    align-items: center;
+    padding: 5px;
+    display: inline-block;
+}
+
+.stock-item-reserved,
+.stock-item-available,
+.stock-item-price{
+    flex-grow: 1;
+    color: #333;
+    text-align-last: center;
 }

@@ -76,9 +76,15 @@ loginForm.addEventListener('submit', function(e) {
     //make sure that the account entered is a valid account
     checkCustomerLogin(email, password).then(validAccount => {
         if(email !== "" && password !== ""){
-            if(validAccount){
-                alert("Login Successful") //holds until the user clicks OK
-                setTimeout(function(){document.location.href = "/store"},500);
+            if(validAccount !== "invalid"){
+                alert("Login Successful. You are a " + validAccount.type + "!") //holds until the user clicks OK
+                
+                if(validAccount.type === "customer")
+                    setTimeout(function(){document.location.href = "/store"},500);
+                else if(validAccount.type === "supplier")
+                    setTimeout(function(){document.location.href = "/orders"},500);
+                else    
+                    console.error("No type specified for valid account login");
             }
             else{
                 alert("Invalid login. Please try again.")
@@ -99,7 +105,8 @@ async function createAccount(email, password, cardNumber, cardExpiration, cardCV
             "password" : password,
             "cardNumber" : cardNumber,
             "cardExpiration" : cardExpiration,
-            "cardCVV" : cardCVV
+            "cardCVV" : cardCVV,
+            "type" : "customer"
         })
     })
 

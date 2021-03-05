@@ -32,6 +32,30 @@ app.get('/store', function(req, res) {
   })
 })
 
+app.get('/orders', function(req, res) {
+  fs.readFile('./public/config_files/orders.json', function(error, data) {
+    if (error) {
+      res.status(500).end()
+    } else {
+      res.render('orders.ejs', {
+        items: JSON.parse(data)
+      })
+    }
+  })
+})
+
+app.get('/stock', function(req, res) {
+  fs.readFile('./public/config_files/items.json', function(error, data) {
+    if (error) {
+      res.status(500).end()
+    } else {
+      res.render('stock.ejs', {
+        items: JSON.parse(data)
+      })
+    }
+  })
+})
+
 app.get('/account', function(req, res) {
   fs.readFile('./public/config_files/orders.json', function(error, data) {
     if (error) {
@@ -65,21 +89,23 @@ app.post("/check_account", (request, response) => {
 
   let usersjson = fs.readFileSync("./public/config_files/accounts.json","utf-8"); //refrence to the file
   let accounts = JSON.parse(usersjson); //JSON object of all current accoutns
+  let type = "";
 
   let valid = false;
   accounts.forEach(function(obj){
     if(request.body.email === obj.email && request.body.password === obj.password){
       valid = true;
       currentCustomer = obj;
+      type = obj.type;
     }
   })
 
   if(valid){
     console.log("Account Matched! Logging in...");
-    response.json(true);
+    response.json({type : type});
     response.end();
   } else {
-    response.json(false);
+    response.json({type : "invalid"});
     response.end();
   }
 })
