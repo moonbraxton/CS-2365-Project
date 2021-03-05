@@ -163,6 +163,7 @@ app.post("/make_order", (request, response) => {
   let today = new Date().toLocaleDateString()
 
   orders.push({
+    order_id: orders.length,
     customer_id: currentCustomer.id,
     items: request.body.items,
     orderTotal: request.body.orderTotal,
@@ -177,4 +178,176 @@ app.post("/make_order", (request, response) => {
 
   response.json(true);
 })
+
+app.post("/order_order", (request, response) => {
+  let ordersjson = fs.readFileSync("./public/config_files/orders.json","utf-8"); //refrence to the file
+  let orders = JSON.parse(ordersjson); //JSON object holding all current items
+
+  for(let order of orders){
+    if("" + order.order_id === "" + request.body.order_id){
+      order.orderStatus = "Ordered";
+    }
+  }
+
+  //update order with items purchased, date, confirmation number, etc...
+  ordersjson = JSON.stringify(orders, null, 2); //transform back into JSON string
+  fs.writeFileSync("./public/config_files/orders.json", ordersjson, "utf-8"); //save the json file
+
+  let itemsjson = fs.readFileSync("./public/config_files/items.json","utf-8"); //refrence to the file
+  let items = JSON.parse(itemsjson); //JSON object holding all current items
+
+  for(let itemPurchased of request.body.products){
+    for(let itemStock of items.music){
+      if( itemPurchased.productName === itemStock.name){
+        if(request.body.oldOrderStatus === "Shipped"){
+          itemStock.available += parseInt(itemPurchased.productQuantity);
+
+        } else if(request.body.oldOrderStatus === "Ready"){
+          itemStock.reserved -= parseInt(itemPurchased.productQuantity);
+          itemStock.available += parseInt(itemPurchased.productQuantity);
+
+        } else {
+        }
+
+        continue;
+      }
+    }
+
+    for(let itemStock of items.merch){
+      if( itemPurchased.productName === itemStock.name){
+        if(request.body.oldOrderStatus === "Shipped"){
+          itemStock.available += parseInt(itemPurchased.productQuantity);
+
+        } else if(request.body.oldOrderStatus === "Ready"){
+          itemStock.reserved -= parseInt(itemPurchased.productQuantity);
+          itemStock.available += parseInt(itemPurchased.productQuantity);
+
+        } else {
+        }
+        
+        continue;
+      }
+    }
+  }
+
+  //update order with items purchased, date, confirmation number, etc...
+  itemsjson = JSON.stringify(items, null, 2); //transform back into JSON string
+  fs.writeFileSync("./public/config_files/items.json", itemsjson, "utf-8"); //save the json file
+
+  response.json(true);
+})
+
+app.post("/ready_order", (request, response) => {
+  let ordersjson = fs.readFileSync("./public/config_files/orders.json","utf-8"); //refrence to the file
+  let orders = JSON.parse(ordersjson); //JSON object holding all current items
+
+  for(let order of orders){
+    if("" + order.order_id === "" + request.body.order_id){
+      order.orderStatus = "Ready";
+    }
+  }
+
+  //update order with items purchased, date, confirmation number, etc...
+  ordersjson = JSON.stringify(orders, null, 2); //transform back into JSON string
+  fs.writeFileSync("./public/config_files/orders.json", ordersjson, "utf-8"); //save the json file
+
+  let itemsjson = fs.readFileSync("./public/config_files/items.json","utf-8"); //refrence to the file
+  let items = JSON.parse(itemsjson); //JSON object holding all current items
+
+  for(let itemPurchased of request.body.products){
+    for(let itemStock of items.music){
+      if( itemPurchased.productName === itemStock.name){
+        if(request.body.oldOrderStatus === "Ordered"){
+          itemStock.available -= parseInt(itemPurchased.productQuantity);
+          itemStock.reserved += parseInt(itemPurchased.productQuantity);
+        } else if(request.body.oldOrderStatus === "Shipped"){
+          itemStock.reserved += parseInt(itemPurchased.productQuantity);
+        } else {
+        }
+        
+        continue;
+      }
+    }
+
+    for(let itemStock of items.merch){
+      if( itemPurchased.productName === itemStock.name){
+        if( itemPurchased.productName === itemStock.name){
+          if(request.body.oldOrderStatus === "Ordered"){
+            itemStock.available -= parseInt(itemPurchased.productQuantity);
+            itemStock.reserved += parseInt(itemPurchased.productQuantity);
+          } else if(request.body.oldOrderStatus === "Shipped"){
+            itemStock.reserved += parseInt(itemPurchased.productQuantity);
+          } else {
+          }
+          
+          continue;
+        }
+      }
+    }
+  }
+
+  //update order with items purchased, date, confirmation number, etc...
+  itemsjson = JSON.stringify(items, null, 2); //transform back into JSON string
+  fs.writeFileSync("./public/config_files/items.json", itemsjson, "utf-8"); //save the json file
+
+  response.json(true);
+})
+
+
+app.post("/ship_order", (request, response) => {
+  let ordersjson = fs.readFileSync("./public/config_files/orders.json","utf-8"); //refrence to the file
+  let orders = JSON.parse(ordersjson); //JSON object holding all current items
+
+  for(let order of orders){
+    if("" + order.order_id === "" + request.body.order_id){
+      order.orderStatus = "Shipped";
+    }
+  }
+
+  //update order with items purchased, date, confirmation number, etc...
+  ordersjson = JSON.stringify(orders, null, 2); //transform back into JSON string
+  fs.writeFileSync("./public/config_files/orders.json", ordersjson, "utf-8"); //save the json file
+
+  let itemsjson = fs.readFileSync("./public/config_files/items.json","utf-8"); //refrence to the file
+  let items = JSON.parse(itemsjson); //JSON object holding all current items
+
+  for(let itemPurchased of request.body.products){
+    for(let itemStock of items.music){
+      if( itemPurchased.productName === itemStock.name){
+        if( itemPurchased.productName === itemStock.name){
+          if(request.body.oldOrderStatus === "Ordered"){
+            itemStock.available -= parseInt(itemPurchased.productQuantity);
+          } else if(request.body.oldOrderStatus === "Ready"){
+            itemStock.reserved -= parseInt(itemPurchased.productQuantity);
+          } else {
+          }
+          
+          continue;
+        }
+      }
+    }
+
+    for(let itemStock of items.merch){
+      if( itemPurchased.productName === itemStock.name){
+        if( itemPurchased.productName === itemStock.name){
+          if(request.body.oldOrderStatus === "Ordered"){
+            itemStock.available -= parseInt(itemPurchased.productQuantity);
+          } else if(request.body.oldOrderStatus === "Ready"){
+            itemStock.reserved -= parseInt(itemPurchased.productQuantity);
+          } else {
+          }
+          
+          continue;
+        }
+      }
+    }
+  }
+
+  //update order with items purchased, date, confirmation number, etc...
+  itemsjson = JSON.stringify(items, null, 2); //transform back into JSON string
+  fs.writeFileSync("./public/config_files/items.json", itemsjson, "utf-8"); //save the json file
+
+  response.json(true);
+})
+
 app.listen(3000)
