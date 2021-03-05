@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Shop Name Here | Store</title>
+        <meta name="description" content="This is the description">
+        <link rel="stylesheet" href="CSS/styles.css" />
+    </head>
+    <body>
+        <header class="main-header">
+            <nav class="main-nav nav">
+                <ul>
+                    <li><a href="/orders">Orders</a></li>
+                    <li><a href="/store">STORE</a></li>
+                </ul>
+            </nav>
+            <h1 class="shop-name shop-name-large">Shop Name Here</h1>
+        </header>
+        <section class="container content-section">
+            <h2 class="section-header">MUSIC</h2>
+            <div class="shop-items">
+                <% items.music.forEach(function(item){ %>
+                    <div class="shop-item" data-item-id="<%= item.id %>" data-item-quantity="<%= item.quantity %>">
+                        <span class="shop-item-title"><%= item.name %></span>
+                        <img class="shop-item-image" src="Images/<%= item.imgName %>">
+                        <div class="stock-item-details">
+                            <span class="stock-item-price">$<%= item.price / 100 %></span>
+                            <span class="stock-item-reserved">Reserved: <%= item.reserved  %></span>
+                            <span class="stock-item-available">Available: <%= item.available  %></span>
+                            <span class="stock-item-available">Total: <%= item.reserved + item.available  %></span>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </section>
+        <section class="container content-section">
+            <h2 class="section-header">MERCH</h2>
+            <div class="shop-items">
+                <% items.merch.forEach(function(item){ %>
+                    <div class="shop-item" data-item-id="<%= item.id %>" data-item-quantity="<%= item.quantity %>">
+                        <span class="shop-item-title"><%= item.name %></span>
+                        <img class="shop-item-image" src="Images/<%= item.imgName %>">
+                        <div class="stock-item-details">
+                            <span class="stock-item-price">$<%= item.price / 100 %></span>
+                            <span class="stock-item-reserved">Reserved: <%= item.reserved  %></span>
+                            <span class="stock-item-available">Available: <%= item.available  %></span>
+                            <span class="stock-item-available">Total: <%= item.reserved + item.available  %></span>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </section>
+    
+    </body>
+</html>

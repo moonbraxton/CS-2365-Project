@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Shop Name Here | Store</title>
+        <meta name="description" content="This is the description">
+        <link rel="stylesheet" href="CSS/styles.css" />
+        <script src="orders.js" defer></script>
+    </head>
+    <body>
+        <header class="main-header">
+            <nav class="main-nav nav">
+                <ul>
+                    <li><a href="/orders">Orders</a></li>
+                    <li><a href="/stock">Stock</a></li>
+                </ul>
+            </nav>
+            <h1 class="shop-name shop-name-large">Shop Name Here</h1>
+        </header>
+        <section class="container content-section">
+            <h2 class="section-header">Order History</h2>
+                <% items.forEach(function(item){ %>
+                    <div class="order">
+                        <div class="order-history">
+                            <div class="order-row">
+                                <span class="order-item order-label">Customer ID: <%= item.customer_id %></span>
+                            </div>
+                            <div class="order-row">
+                                <span class="order-item order-label">Date: <%= item.orderDate %></span>
+                                <span class="order-item order-label">Purchase Authorization #: <%= item.purchaseAuthorizationNumber %></span>
+                            </div>
+                            <div class="order-row">
+                                <span class="order-item order-header order-column">ITEM</span>
+                                <span class="order-quantity order-header order-column">QUANTITY</span>
+                                <span class="order-price order-header order-column">PRICE</span>
+                            </div>
+                            <% item.items.forEach(function(purchased){ %>
+                                <div class="order-row">
+                                    <div class="order-item order-column">
+                                        <img class="order-item-image" src="<%= purchased.img %>" width="100" height="100">
+                                        <span class="order-item-title"><%= purchased.title %></span>
+                                    </div>
+                                    <span class="order-quantity order-column"><%= purchased.quantityPurchased %></span>
+                                    <span class="order-price order-column"><%= purchased.price %></span>
+                                </div>
+                            <% }) %>
+                            <div class="order-status-control">
+                                <button class="btn btn-primary supplier-ready-order-button" type="button">MOVE ORDER TO 'READY'</button>
+                                <button class="btn btn-primary supplier-ship-order-button" type="button">MOVE ORDER TO 'SHIPPED'</button>
+                            </div>
+                            <div class="order-information">
+                                <div class="order-status">
+                                    <strong class="order-status-title">Status</strong>
+                                    <span class="order-status-value"><%= item.orderStatus %></span>
+                                </div>
+                                <div class="order-total">
+                                    <strong class="order-total-title">Total</strong>
+                                    <span class="order-total-price">$<%= item.orderTotal/100 %></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+        </section>
+    </body>
+</html>
