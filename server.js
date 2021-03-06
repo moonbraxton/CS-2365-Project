@@ -19,6 +19,8 @@ app.set('view engine', 'ejs')
 app.use(express.json())
 app.use(express.static('public'))
 
+app.engine('ejs', require('ejs').__express);
+
 app.get('/store', function(req, res) {
   fs.readFile('./public/config_files/items.json', function(error, data) {
     if (error) {
